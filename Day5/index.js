@@ -1,4 +1,5 @@
 let express = require("express") // call express
+const { checkToken } = require("./checkTokenMiddlewear")
 
 // initialize express
 let app = express()
@@ -12,58 +13,52 @@ let myPass = "12345"
 // agar next tko satisfy kiya to wo bolega aage jaana hai ki nhi jaana hai
 // if not correct it'll wait there only
 // next is a type of call back function
-let checkToken = (req, res, next) => {
-    // no token given so response yahi se bhej diya --- aage nhi jaane diya
-    if(req.query.token=="" || req.query.token==undefined) {
-        // return hone ke baad next pe nhi jaa sakte
-        return res.send(
-            {
-                status:0,
-                msg:"Please Fill The Token"
-            }
-        )
-    }
-    // console.log("Welcome")
-    if(req.query.token!=myToken) {
-         return res.send(
-            {
-                status:0,
-                msg:"Please Fill The Correct Token"
-            }
-        )
-    }
-    next();
-}
-app.use(checkToken) // middleware
+// let checkToken = (req, res, next) => {
+//     // no token given so response yahi se bhej diya --- aage nhi jaane diya
+//     if(req.query.token=="" || req.query.token==undefined) {
+//         // return hone ke baad next pe nhi jaa sakte
+//         return res.send(
+//             {
+//                 status:0,
+//                 msg:"Please Fill The Token"
+//             }
+//         )
+//     }
+//     // console.log("Welcome")
+//     if(req.query.token!=myToken) {
+//          return res.send(
+//             {
+//                 status:0,
+//                 msg:"Please Fill The Correct Token"
+//             }
+//         )
+//     }
+//     next();
+// }
+// app.use(checkToken) // middleware
 
-app.use((req, res, next) => {
-     if(req.query.pass=="" || req.query.pass==undefined) {
-        // return hone ke baad next pe nhi jaa sakte
-        return res.send(
-            {
-                status:0,
-                msg:"Please Fill The Password"
-            }
-        )
-    }
-    // console.log("Welcome")
-    if(req.query.pass!=myPass) {
-         return res.send(
-            {
-                status:0,
-                msg:"Please Fill The Correct Password"
-            }
-        )
-    }
-    next();
+// app.use((req, res, next) => {
+//      if(req.query.pass=="" || req.query.pass==undefined) {
+//         // return hone ke baad next pe nhi jaa sakte
+//         return res.send(
+//             {
+//                 status:0,
+//                 msg:"Please Fill The Password"
+//             }
+//         )
+//     }
+//     // console.log("Welcome")
+//     if(req.query.pass!=myPass) {
+//          return res.send(
+//             {
+//                 status:0,
+//                 msg:"Please Fill The Correct Password"
+//             }
+//         )
+//     }
+//     next();
 
-})
-
-
-
-
-
-
+// })
 
 
 // creating route with method
@@ -71,7 +66,7 @@ app.get("/", (req, res) => { // http://localhost:8000
     res.send({ status: 1, msg: "Home Page API" })
 })
 
-app.get('/news', (req, res) => {
+app.get('/news', checkToken, (req, res) => {
     res.send({ status: 1, msg: "News API" })
 })
 
