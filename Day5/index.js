@@ -1,13 +1,21 @@
 let express = require("express") // call express
+require("dotenv").config(); // call dotenv
 const { checkToken } = require("./checkTokenMiddlewear")
 
 // initialize express
 let app = express()
 
+// console.log(process.env.MYToken)
+
 // inbuilt middleware
 app.use(express.json())
-let myToken = "12345"
-let myPass = "12345"
+
+
+
+
+
+// let myToken = "12345"
+// let myPass = "12345"
 
 // middleware has 3 parameter , instead of next can give anything 
 // agar next tko satisfy kiya to wo bolega aage jaana hai ki nhi jaana hai
@@ -100,4 +108,5 @@ app.post("/login", (req, res) => {
     //     })
 })
 
-app.listen(8000)
+// app.listen(8000)
+app.listen(process.env.PORT || 5000)

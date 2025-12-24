@@ -12,7 +12,9 @@ let checkToken = (req, res, next) => {
         )
     }
     // console.log("Welcome")
-    if(req.query.token!=myToken) {
+    // if(req.query.token!=myToken)
+    // MYToken env file se process hoke aara hai
+    if(req.query.token!=process.env.myToken) {
          return res.send(
             {
                 status:0,
